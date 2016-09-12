@@ -7,6 +7,8 @@ public class FileTransferConstants {
     public final static String FTP_USER="rsuite.ftp.user";
     public final static String FTP_PASSWORD="rsuite.ftp.password";
     public final static String FTP_PORT="rsuite.ftp.port";
+    public final static String FTP_KEEPALIVE="rsuite.ftp.keepalive";
+    public final static String FTP_TIMEOUT="rsuite.ftp.timeout";
     public final static String FTP_SSL="rsuite.ftp.sftp";
     
 }

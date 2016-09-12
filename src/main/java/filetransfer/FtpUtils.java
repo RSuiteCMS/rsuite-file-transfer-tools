@@ -16,6 +16,8 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
+import com.reallysi.rsuite.api.ConfigurationProperties;
+import com.reallysi.rsuite.api.extensions.ExecutionContext;
 import com.rsicms.rsuite.helpers.utils.net.ftp.FTPConnectionInfo;
 import com.rsicms.rsuite.helpers.utils.net.ftp.FTPUtils;
 
@@ -26,7 +28,6 @@ public class FtpUtils extends FTPUtils {
 	/**
 	 * Uploads an inputStream to SFTP server into a specific folder.
 	 * 
-	 * @param context
 	 * @param connectionInfo
 	 * @param inputStream
 	 *            InputStream to transfer the bytes of.
@@ -65,8 +66,8 @@ public class FtpUtils extends FTPUtils {
 	/**
 	 * Utility to create the remote directory, creating them when necessary.
 	 * 
-	 * @param c
-	 * @param sftpFolderPath
+	 * @param connection
+	 * @param dirTree
 	 * @throws SftpUtilsException
 	 * @throws IOException
 	 */
@@ -117,7 +118,7 @@ public class FtpUtils extends FTPUtils {
 	 * @throws IOException
 	 * @throws SocketException
 	 */
-	public static void downloadAndRemoveFiles(
+	public static void downloadAndRemoveFiles(ExecutionContext context,
 			ISftpConnectionInfo connectionInfo, String sftpFolderPath,
 			String wildcardMatcher, String OutputFolder, List<File> files)
 			throws SocketException, IOException {
@@ -126,6 +127,14 @@ public class FtpUtils extends FTPUtils {
 				.getConection());
 
 		FTPClient ftpClient = createFTPClient(connection);
+		ConfigurationProperties properties = context.getConfigurationProperties();
+		int keepAliveTimeout = Integer.parseInt(properties.getProperty(FileTransferConstants.FTP_KEEPALIVE,
+				"300"));
+		int transferTimeout = Integer.parseInt(properties.getProperty(FileTransferConstants.FTP_TIMEOUT,
+				"0"));
+		ftpClient.setKeepAlive(true);
+		ftpClient.setControlKeepAliveTimeout(keepAliveTimeout);
+		ftpClient.setDataTimeout(transferTimeout);
 
 		FTPFile[] FTPfiles = ftpClient.listFiles(sftpFolderPath);
 		

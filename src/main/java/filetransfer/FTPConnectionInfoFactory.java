@@ -23,7 +23,8 @@ public class FTPConnectionInfoFactory {
 			if ("true".equals(isSftp)) {
 				return new SftpConnectionInfo(host, port, user, password);
 			} else {
-				return new SimpleFtpConnectionInfo(host, port, user, password);
+				SimpleFtpConnectionInfo connectionInfo = new SimpleFtpConnectionInfo(host, port, user, password);
+				return connectionInfo;
 			}
 		}
 

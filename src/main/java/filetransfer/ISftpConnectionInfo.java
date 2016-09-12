@@ -18,5 +18,4 @@ public interface ISftpConnectionInfo extends UserInfo
     
     Object getConection();
     
-    
 }
