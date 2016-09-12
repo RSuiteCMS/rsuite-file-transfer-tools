@@ -135,6 +135,7 @@ public class FtpUtils extends FTPUtils {
 		ftpClient.setKeepAlive(true);
 		ftpClient.setControlKeepAliveTimeout(keepAliveTimeout);
 		ftpClient.setDataTimeout(transferTimeout);
+		log.info("  For download, set keep alive=true and =" + keepAliveTimeout + " and data transfer timeout=" + transferTimeout);
 
 		FTPFile[] FTPfiles = ftpClient.listFiles(sftpFolderPath);
 		
